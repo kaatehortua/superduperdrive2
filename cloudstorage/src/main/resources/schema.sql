@@ -1,4 +1,3 @@
-
 CREATE TABLE IF NOT EXISTS USERS (
   userid INT PRIMARY KEY auto_increment,
   username VARCHAR(20) UNIQUE,
@@ -35,4 +34,3 @@ CREATE TABLE IF NOT EXISTS CREDENTIALS (
     userid INT,
     foreign key (userid) references USERS(userid)
 );
-

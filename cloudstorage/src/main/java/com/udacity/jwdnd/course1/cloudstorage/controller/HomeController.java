@@ -1,38 +1,34 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
-import com.udacity.jwdnd.course1.cloudstorage.model.UserModel;
-import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
-import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
+
+import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/home")
 public class HomeController {
-   private CredentialService credentialService;
-   private UserService userService;
-   private UserMapper mapper;
-   private EncryptionService encrypt;
 
-    public HomeController(CredentialService credentialService, UserService userService, UserMapper mapper, EncryptionService encrypt) {
-        this.credentialService = credentialService;
-        this.userService = userService;
-        this.mapper = mapper;
-        this.encrypt = encrypt;
+    private final UserMapper userMapper;
+    private final UserService userService;
+
+
+    public HomeController(UserMapper userMapper, UserService userService) {
+        this.userService= userService;
+        this.userMapper = userMapper;
     }
-    @GetMapping("/home")
-    public String home(Authentication auth, Model model){
-        String logged= (String) auth.getPrincipal();
-        UserModel user= mapper.getUser(logged);
 
-        model.addAttribute("credentials",credentialService.getListCredential(user.getUserId()));
-        model.addAttribute("encryption",encrypt);
+    @GetMapping()
+    public String getHomePage(Authentication auth, Model model){
+        User usuLog=userService.getUser(auth.getName());
+        int userid=usuLog.getId();
+
+
         return "home";
     }
-    @GetMapping("/result")
-    public String result(){return "result";}
 }

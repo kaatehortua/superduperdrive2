@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.mapper;
 
-import com.udacity.jwdnd.course1.cloudstorage.model.UserModel;
+
+import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -8,10 +9,10 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface UserMapper {
-    @Select("select * from users where username=#{username}")
-    UserModel getUser(String username);
+    @Select("SELECT * FROM USERS WHERE username=#{username}")
+    User getUser(String unsername);
 
-    @Insert("INSERT INTO USERS (username, salt, password, firstname, lastname) VALUES (#{username}, #{salt}, #{password}, #{firstname}, #{lastname})")
-    @Options(useGeneratedKeys = true, keyProperty = "userId")
-    int insert(UserModel user);
+    @Insert("INSERT INTO USERS (username, salt, password, firstname, lastname) VALUES(#{username},#{password}, #{salt}, #{firstName}, #{lastName})")
+    @Options(useGeneratedKeys = true,keyProperty = "id")
+    int insert(User user);
 }
